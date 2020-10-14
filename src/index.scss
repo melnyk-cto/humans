@@ -1,0 +1,62 @@
+@import "assets/scss/variable";
+
+body, html {
+  margin:  0;
+  padding: 0;
+  height:  100%;
+}
+
+html {
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  //font-family: 'Proxima Nova', sans-serif;
+  padding:    0;
+  margin:     0;
+  outline:    none;
+}
+
+#root {
+  height: 100%;
+}
+
+a {
+  font-size:       1.125rem;
+  text-decoration: none;
+  color:           $blackColor;
+  font-weight:     bold;
+  line-height:     1.25;
+  &:hover, &:active {
+    opacity:         .7;
+    text-decoration: none;
+  }
+}
+
+h1 {
+  font-size:   2.125rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+h2 {
+  font-size:   2.25rem;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+h3 {
+  font-size:   1.5rem;
+  line-height: 1;
+}
+
+ul {
+  list-style-type: none;
+  li {
+    font-size:   1.125rem;
+    line-height: 1.67;
+    color:       $blackColor;
+  }
+}
+

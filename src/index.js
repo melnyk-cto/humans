@@ -1,7 +1,17 @@
+// core
 import React from "react";
+
+// library
 import ReactDOM from "react-dom";
+import { BrowserRouter } from 'react-router-dom';
 
-import App from "./components/App";
+// components
+import { App } from "./components/App/App";
 
-// ReactDOM превращает React елементы в обычные браузерные DOM елементы и рендерить их на странице.
-ReactDOM.render(<App />, document.getElementById("root"));
+// assets
+import './index.scss'
+
+ReactDOM.render(
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>, document.getElementById("root"));
