@@ -11,42 +11,42 @@ import "./App.scss";
 
 let maxId = 100;
 
-const createToDoItem = label => {
+const createHumansItem = label => {
   return { id: maxId++, label, done: false, important: false };
 };
 
 const humansDataArray = [
-  createToDoItem("Mike"),
-  createToDoItem("Robert"),
-  createToDoItem("Andrey"),
-  createToDoItem("Georg")
+  createHumansItem("Mike"),
+  createHumansItem("Robert"),
+  createHumansItem("Andrey"),
+  createHumansItem("Georg")
 ];
 
 // Один компонент - один файл
 // Все компоненты должны быть в папке "components"
 const App = () => {
-  const [humansData, setTodoData] = useState(humansDataArray);
+  const [humansData, setHumansData] = useState(humansDataArray);
   const [term, setTerm] = useState("");
   const [filter, setFilter] = useState("all"); // all, active, done
 
   const deleteItem = id => {
     const idx = humansData.findIndex(el => el.id === id);
     const newArray = [...humansData.slice(0, idx), ...humansData.slice(idx + 1)];
-    // НЕЛЬЗЯ! изменять существующий state, то есть прямой запис setTodoData([...humansData.slice(0, id), ...humansData.slice(id + 1)]) не верный!;
-    setTodoData(newArray);
+    // НЕЛЬЗЯ! изменять существующий state, то есть прямой запис setHumansData([...humansData.slice(0, id), ...humansData.slice(id + 1)]) не верный!;
+    setHumansData(newArray);
   };
 
   const addItem = label => {
     if (label.length <= 0) return;
 
     maxId++;
-    const newItem = createToDoItem(label);
+    const newItem = createHumansItem(label);
 
     // Добавить новый елемент в вначало масива (const newArray = [newItem, ..humansData]) или в конец:
     const newArray = [...humansData, newItem];
 
     // array.push() - изменение масива которое возвращает длину масива. НЕЛЬЗЯ применять на масивах из "state"
-    setTodoData(newArray);
+    setHumansData(newArray);
   };
 
   const toggleProperty = (array, id, propName) => {
@@ -54,7 +54,7 @@ const App = () => {
     const oldArray = array[idx];
     const newItem = { ...oldArray, [propName]: !oldArray[propName] };
     const newArray = [...array.slice(0, idx), newItem, ...array.slice(idx + 1)];
-    setTodoData(newArray);
+    setHumansData(newArray);
   };
   const onToggleDoneItem = id => {
     toggleProperty(humansData, id, "done");
@@ -64,7 +64,7 @@ const App = () => {
   };
 
   const countDone = humansData.filter(item => item.done).length;
-  const countTodo = humansData.length - countDone;
+  const countHumans = humansData.length - countDone;
 
   const filterItems = (items, filter) => {
     switch (filter) {
@@ -88,7 +88,7 @@ const App = () => {
 
   return (
     <div className="humansApp">
-      <AppHeader toDo={countTodo} done={countDone} />
+      <AppHeader humans={countHumans} done={countDone} />
       <div className="top-panel d-flex">
         <SearchPanel term={term} setTerm={setTerm} />
         <ItemStatusFilter filter={filter} setFilter={setFilter} />
@@ -96,7 +96,7 @@ const App = () => {
       <HumansList
         humansData={visibleItems}
         onDeleted={deleteItem}
-        setTodoData={setTodoData}
+        setHumansData={setHumansData}
         onToggleDoneItem={onToggleDoneItem}
         onToggleImportantItem={onToggleImportantItem}
       />
