@@ -49,21 +49,8 @@ export const Home = () => {
         localStorage.setItem('humans', JSON.stringify(newArray));
     };
 
-    const toggleProperty = (array, id, propName) => {
-        const idx = array.findIndex(el => el.id === id);
-        const oldArray = array[idx];
-        const newItem = {...oldArray, [propName]: !oldArray[propName]};
-        const newArray = [...array.slice(0, idx), newItem, ...array.slice(idx + 1)];
 
-        dispatch(humansActions.setHumans(newArray));
-        localStorage.setItem('humans', JSON.stringify(newArray));
-    };
-    const onToggleDoneItem = id => {
-        toggleProperty(humansData, id, "done");
-    };
-    const onToggleImportantItem = id => {
-        toggleProperty(humansData, id, "important");
-    };
+
 
     const countDone = humansData.filter(item => item.done).length;
     const countHumans = humansData.length - countDone;
@@ -83,9 +70,7 @@ export const Home = () => {
             </div>
             <HumansList
                 humansData={visibleItems}
-                onDeleted={deleteItem}
-                onToggleDoneItem={onToggleDoneItem}
-                onToggleImportantItem={onToggleImportantItem} />
+                onDeleted={deleteItem} />
             <AddItem addItem={addItem} />
         </div>
     );

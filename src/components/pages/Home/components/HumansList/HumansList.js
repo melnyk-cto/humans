@@ -3,12 +3,7 @@ import React from "react";
 import HumansListItem from "../HumansListItem";
 import "./HumansList.scss";
 
-const HumansList = ({
-                        humansData,
-                        onDeleted,
-                        onToggleDoneItem,
-                        onToggleImportantItem
-                    }) => {
+const HumansList = ({humansData, onDeleted}) => {
     const listItem = humansData.map(item => {
         const {id, ...itemProps} = item;
         return (
@@ -16,8 +11,7 @@ const HumansList = ({
                 <HumansListItem
                     {...itemProps}
                     onDeleted={() => onDeleted(id)}
-                    onToggleDoneItem={() => onToggleDoneItem(id)}
-                    onToggleImportantItem={() => onToggleImportantItem(id)}
+                    id={id}
                 />
             </li>
         );
