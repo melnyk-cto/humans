@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions';
 import { humansActions } from './actions';
 
 const initialState = {
-    data: {},
+    data: JSON.parse(localStorage.getItem('humans')) || [],
 };
 
 export const humansReducer = handleActions({

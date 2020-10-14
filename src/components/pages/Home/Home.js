@@ -1,11 +1,16 @@
 // core
 import React, { useState } from "react";
 
+// library
+import { useDispatch, useSelector } from "react-redux";
+
 // components
 import AppHeader from "./components/AppHeader";
 import SearchPanel from "./components/SearchPanel";
 import HumansList from "./components/HumansList";
 import AddItem from "./components/AddItem";
+import { humansActions } from "../../../bus/humans/actions";
+import { getHumans } from "../../../bus/humans/selectors";
 
 // assets
 import "./Home.scss";
@@ -13,25 +18,25 @@ import "./Home.scss";
 
 let maxId = 100;
 export const Home = () => {
+    const dispatch = useDispatch();
+    const humansData = useSelector(getHumans);
+    const [term, setTerm] = useState("");
 
     const createHumansItem = label => {
-        return {id: maxId++, label, done: false, important: false};
+        if (humansData[humansData.length - 1] === undefined) {
+            return {id: maxId++, label};
+
+        } else {
+            return {id: (humansData[humansData.length - 1].id + 1), label};
+        }
     };
-
-    const humansDataArray = [
-        createHumansItem("Mike"),
-        createHumansItem("Robert"),
-        createHumansItem("Andrey"),
-        createHumansItem("Georg")
-    ];
-
-    const [humansData, setHumansData] = useState(humansDataArray);
-    const [term, setTerm] = useState("");
 
     const deleteItem = id => {
         const idx = humansData.findIndex(el => el.id === id);
         const newArray = [...humansData.slice(0, idx), ...humansData.slice(idx + 1)];
-        setHumansData(newArray);
+
+        dispatch(humansActions.setHumans(newArray));
+        localStorage.setItem('humans', JSON.stringify(newArray));
     };
 
     const addItem = label => {
@@ -39,7 +44,9 @@ export const Home = () => {
         maxId++;
         const newItem = createHumansItem(label);
         const newArray = [...humansData, newItem];
-        setHumansData(newArray);
+
+        dispatch(humansActions.setHumans(newArray));
+        localStorage.setItem('humans', JSON.stringify(newArray));
     };
 
     const toggleProperty = (array, id, propName) => {
@@ -47,7 +54,9 @@ export const Home = () => {
         const oldArray = array[idx];
         const newItem = {...oldArray, [propName]: !oldArray[propName]};
         const newArray = [...array.slice(0, idx), newItem, ...array.slice(idx + 1)];
-        setHumansData(newArray);
+
+        dispatch(humansActions.setHumans(newArray));
+        localStorage.setItem('humans', JSON.stringify(newArray));
     };
     const onToggleDoneItem = id => {
         toggleProperty(humansData, id, "done");
@@ -75,7 +84,6 @@ export const Home = () => {
             <HumansList
                 humansData={visibleItems}
                 onDeleted={deleteItem}
-                setHumansData={setHumansData}
                 onToggleDoneItem={onToggleDoneItem}
                 onToggleImportantItem={onToggleImportantItem} />
             <AddItem addItem={addItem} />
